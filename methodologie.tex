@@ -1,0 +1,59 @@
+%%=============================================================================
+%% Methodologie
+%%=============================================================================
+
+\chapter{Methodologie}
+\label{ch:methodologie}
+
+%% TODO: Hoe ben je te werk gegaan? Verdeel je onderzoek in grote fasen, en
+%% licht in elke fase toe welke stappen je gevolgd hebt. Verantwoord waarom je
+%% op deze manier te werk gegaan bent. Je moet kunnen aantonen dat je de best
+%% mogelijke manier toegepast hebt om een antwoord te vinden op de
+%% onderzoeksvraag.
+
+%TODO: invullen ofc! duh
+
+%todo: invullen welke testen we uitvoeren (honeypots, hogent websites)
+\section{Studie}
+
+%begonnen met onderzoek te doen hoe openvas werkte, omdat deze gebouwd is op een oude versie van nessus zou ik hiermee ook meer informatie krijgen over de bouw van nessus (dmv source code).
+
+\section{Opzetten testomgeving}
+
+Voor dit onderzoek werd er gebruik gemaakt van 4 virtuele machines op Virtualbox versie 5.1.10. Voor de virtuele machines waar er een vulnerability scanner op moest draaien, hebben we gebruik gemaakt van een CentOS minimal image. Deze kregen ook dezelfde instellingen die hieronder vermeld worden:
+
+\begin{itemize}
+\item 8000 MB ram
+\item 4 CPUs
+\item NAT \& host-only interfaces
+\end{itemize}
+
+Voor de honeypots gebruikten we een iets minder zware virtuele machine, de instellingen hiervoor worden hieronder ook vermeld. 
+
+\begin{itemize}
+\item 1000 MB ram
+\item 2 CPUs
+\item Host-only interface
+\end{itemize}
+
+De fysieke computer waar deze testen op zijn uitgevoerd heeft 16GB ram en een cpu met 4 cores en 8 threads. Tijdens de testen waren er geen andere programmas actief die een impact zoudenn kunnen hebben op de resultaten. Ook werden alleen de machines die getest moeten worden aangezet zodat beide scanners geen impact op elkaar konden hebben.
+
+%todo aanvullen voor nessus:
+Er werden voor elke scanner 2 scans uitgevoerd op elk target. Een snelle scan, en een diepe scan die mogelijk een niet intentionele DOS kan veroorzaken bij het te scannan target. Voor openvas werden de profielen 'Full and fast' gebruikt en 'Full and very deep ultimate'. Voor nessus
+
+
+
+
+\section{Installatie en gebruik scanners}
+
+%File op vaste PC met alle data hierin verwerken.
+
+\section{Scan resultaten}
+
+\section{Scan resultaten valideren}
+
+ %db(underscore)autopwn methode gebruiken (in metasploit) om false positives niet manueel te moeten filteren?
+
+\section{Analyseren van de data}
+
+%alle gevonden data in een tabel gieten, voor en nadelen nog is opsommen en \textit{persoonlijke mening geven?}
