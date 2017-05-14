@@ -11,12 +11,21 @@
 %% mogelijke manier toegepast hebt om een antwoord te vinden op de
 %% onderzoeksvraag.
 
-%TODO: invullen ofc! duh
 
-%todo: invullen welke testen we uitvoeren (honeypots, hogent websites)
-\section{Studie}
+%section{Studie}
 
-%begonnen met onderzoek te doen hoe openvas werkte, omdat deze gebouwd is op een oude versie van nessus zou ik hiermee ook meer informatie krijgen over de bouw van nessus (dmv source code).
+%Voor deze proeven te beginnen, zijn we begonnen met het bestuderen van openvas. De reden hiervoor is dat deze open-source is, en het dus gemakkelijker is om een beeld te krijgen achter de schermen. Nadat de literatuurstudie klaar was, moest er beslist worden hoe het verloop van dit onderzoek zou verlopen. Uitendelijk is er besloten om een gedetailleerd onderzoek te voeren op 
+
+\section{Testen bepalen}
+
+%todo 3de test?
+%todo vermelden welke creds gebruikt zijn (ssh voor linux, ? voor windows)
+In dit onderzoek zal er met elke scanner 4 scans uitgevoerd worden op elk target. De reden hierachter is dat er in een professionele omgeving 2 punten zijn die belangerijk zijn.Zowel nessus als openvas hebben hiervoor aparte profielen die focussen op een ander deel. Naast deze 2 scans is een credential scan ook een noodzaak om een inzicht te krijgen hoe goed een systeem lokaal beveiligd is (indien men toegang en permissie heeft om deze te scannen met bv. ssh). Voor elke scanner zal er dus een snelle credential, accurate credential, snelle uncredential en een accurate uncredential scan uitgevoerd worden. Dit zal gebeuren in een paar omgevingen die we hieronder bespreken.
+
+Eerst testen we dit op honeypots, dit zijn servers die intentioneel een zwakke configuratie hebben die veel vulnerabilities toont op de scanner. Het doel hiervan is dat deze heel goed opgevolgd moeten worden, en van zodra men activiteit op de server opmerkt dit onderzoeken en kijken of er onbevoegde persoon / malware aanwezig is. Deze test zal bepalen hoeveel vulnerabilities op een zwak systeem gevonden worden voor zowel een linux, als een windows machine.
+
+%SE uitleggen?
+Hierna zullen de scanners gebruikt worden om een webserver te scannen over het internet. Deze test is een goede weergave voor een deel van een penetration test. We verwachten op de server zelf weinig tot geen fouten, maar de extra informatie die de scanner ons geeft zoals het besturingssysteem of welke diensten er draaien op het systeem. Deze informatie kan gebruikt worden voor andere aanvallen zoals social engineering.
 
 \section{Opzetten testomgeving}
 
@@ -36,17 +45,46 @@ Voor de honeypots gebruikten we een iets minder zware virtuele machine, de inste
 \item Host-only interface
 \end{itemize}
 
-De fysieke computer waar deze testen op zijn uitgevoerd heeft 16GB ram en een cpu met 4 cores en 8 threads. Tijdens de testen waren er geen andere programmas actief die een impact zoudenn kunnen hebben op de resultaten. Ook werden alleen de machines die getest moeten worden aangezet zodat beide scanners geen impact op elkaar konden hebben.
+De fysieke computer waar deze testen op zijn uitgevoerd heeft 16GB ram en een cpu met 4 cores en 8 threads. Tijdens de testen waren er geen andere programmas actief die een impact zouden kunnen hebben op de resultaten. Ook werden alleen de machines die getest moeten worden aangezet zodat beide scanners geen impact op elkaar konden hebben.
 
-%todo aanvullen voor nessus:
-Er werden voor elke scanner 2 scans uitgevoerd op elk target. Een snelle scan, en een diepe scan die mogelijk een niet intentionele DOS kan veroorzaken bij het te scannan target. Voor openvas werden de profielen 'Full and fast' gebruikt en 'Full and very deep ultimate'. Voor nessus
+\section{Installatie}
 
+\subsubsection{Nessus}
 
+%WGET COMMANDO BIJZETTEN, NESSUS VERSIE, NESSUS CLI TESTEN
+Voor nessus te downloaden op de virtuele machine (met enkel CLI), moeten we naar de productpagina gaan. Sinds we geen extra software op de virtuele machine wouden (zoals FTP of SMB), zullen we wget gebruiken voor de .rpm file te downloaden. Dit is niet zo simpel, sinds de download link een pop up weergeeft voor de juiste versie te kiezen. Na dit probleem op te zoeken, is het duidelijk dat we bepaalde waarden met wget moeten meegeven \textbf{\textit{COMMAND}}.
 
+Na de installatie van de RPM file (38 MB), poort 8834/tcp te openen in firewall-cmd en de service nessusd te starten is de webinterface bereikbaar. Hier moeten we de licentiecode ingeven die we verkregen hebben bij het aanvragen van een nessus home licentie. Hierna volgt een download scherm dat +- 7 minuten duurt. Hierna kunnen we beginnen met scannen.
 
-\section{Installatie en gebruik scanners}
+\subsubsection{Openvas}
 
-%File op vaste PC met alle data hierin verwerken.
+Voor openvas te downloaden op de virtuele machine (met enkel CLI), hebben we 2 opties. We kunnen deze van source compilen, of de \textcite{Openvas-installation}. Wij gebruiken de packages, omdat dit minder tijd in beslag neemt. Voor deze packages te downloaden gebruiken we de atomicorp repository, omdat hiernaar verwezen word op de openvas site.
+
+We installeren de packages voor openvas 9 via yum. De totale grootte van alle packages is 70 MB (185 dependencies). Na deze te downloaden moeten we alles installeren via command line, hiervoor gebruiken we 'openvas-setup'. Deze download eerst alle NVTs (28 MB, verplicht), maar na de download crashed het script omdat we de package 'bzip2' niet geïnstalleerd hebben. We starten het script terug op en merken dat we alle NVTs opnieuw moeten downloaden. Hierna geeft het script een niet fatale error 'certool not found', maar het script gaat verder en blijft vasthangen na 'verify admin password'. Op de achtergrond is het script een databank aan het maken met alle NVTs in, na deze stap is het script gedaan. Het script heeft 23 minuten in beslag genomen.
+
+Na poort 9392/tcp open te zetten in firewall-cmd is het \textit{niet} mogelijk om te connecteren op de webinterface. We gebruiken een ander script 'openvas-check-setup --v9' om te kijken wat er mis is. Deze geeft weer dat de redis server niet gestart is. Deze zit in een failing state, en wil niet herstarten. Na de log files te raadplegen hebben we selinux op 'permissive' gezet, en werkt de redis server nu wel.
+
+Na de check-config nog eens te overlopen, blijkt dat de services van openvas momenteel niet aanstaan. Bij deze opmerkingen staan er tussen haakjes openvassd en openvasmd. Na deze commandos uit te voeren, blijkt de services nog steeds niet te draaien. Na dit verder te onderzoeken, blijkt dat de service openvas-scanner, openvas-manager en gsad noemen. we starten deze op en runnen de check-config opnieuw. 
+
+De config geeft nogmaals een probleem, deze keer omdat de database geen tot weinig gegevens bevat. Hiervoor moeten we het commando 'openvasmd --rebuild' starten. Na 4-5 minuten is deze gedaan en draaien we de check-config nogmaals. Nu geeft deze weer dat er geen SCAP en CERT data aanwezig zijn. Hoewel dit \textit{niet} verplicht is, installeren we deze gegevens voor de volledigheid van de scanner. De sync moet gebeuren met rsync, maar sinds deze sync veel files bevatten die niet groot zijn gaat dit heel traag. Deze duurden samen ongeveer 22 minuten en nemen +-800MB in beslag. 
+
+Als al deze gegevens aanwezig zijn, draaien we het commando check-config nog eens. Deze geeft weer dat selinux moet gedisabled worden. We proberen deze eerst op 'permissive' te zetten, maar het script geeft nog steeds een foutmelding. Na een reboot van de server voor selinux uit te zetten, geeft het script weer dat er een paar packages die \textbf{optioneel} zijn niet aanwezig zijn (zoals alien en net-tools). We installeren deze ook zodat deze geen invloed kunnen hebben op de eindresultaten van de scans.
+
+Uiteindelijk geeft het script weer dat de openvas installatie klaar is voor gebruik. Na het bezoeken van de webinterface blijkt dat dit nog steeds niet mogelijk is. Na te troubleshooten blijkt dat de error in het begin van openvas-setup (certool not found) hier schuldig voor is. Na de package 'gnutls-utils' te installeren en nieuwe certificaten te genereren, is het mogelijk om de webinterface te raadplegen. 
+
+Als we de CLI bekijken, blijkt dat deze niet werkt omdate we niet werken met socket files. We lossen dit op door openvas op localhost te laten luisteren in plaats van een .sock file te gebruiken (openvasmd -a 127.0.0.1), hierna werkt de CLI zoals het hoort.
+
+\subsubsection{Honeypots}
+
+Voor de linux honeypot hebben we 'metasploitable' genomen. Dit is een linux machine die gebaseerd is op ubuntu 8.04 en een reeks services heeft draaien. Deze services zijn opzettelijk zo zwak mogelijk geconfigureerd zodat men op deze virtuele machines vulnerability scanners kunnen testen en zo leren een penetration test uit te voeren.
+
+Voor de windows honeypot hebben we een windows xp machine zonder service packs geïnstalleerd, maar met een aantal servers (SMB,SMTP,SNMP, FTP en IIS). Vooral door deze missende service packs hebben deze veel problemen + er zijn geen opzettelijk slecht geconfigureerde machines zoals metasploitable omdat windows xp onder een licentie valt. 
+
+\subsubsection{Webservers}
+
+Als 2de test zullen we een webserver scannen die momenteel in gebruik is door HoGent. \textit{\textbf{*URLS*}}. Hiervoor hebben we een schriftelijke toestemming gekregen door Van Vreckem Bert.
+
+\section{Instellingen scans}
 
 \section{Scan resultaten}
 

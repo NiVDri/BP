@@ -1,0 +1,297 @@
+RESULTS ONDERZOEK:
+
+OOK CLI TESTEN OFZO MINSTENS BESPREKEN!
+TEKST VERANDEREN IN METHODOLGIE VAN ACUURAAT SCA NNAAR IETS ANDERS
+
+------------------------------------------------------------------------------------------------------------------------
+OPENVAS vs METASPLOIT
+
+linux no-cred scan (fast):
+
+- via GUI
+- port list = 'All IANA assigned TCP 2012-02-10' --> 5625 ports (enkel TCP) uitleggen wat IANA is --> is ook het eertse item in de checkbocks (standaardwaarde?)
+- alive test = consider alive
+- full and fast
+	- bijna alle NVTs die openavs heeft
+	- word geoptimalizeerd op basis van vorige scans van dezelfde target
+	- geen NVTs die services of host kunnen laten crash
+	- gebruikt TCP connect() nmap scan --> SYN is sneller, maar meer unreliable --> er moet zelf een scanner voor aangemaakt worden
+- scanner: openvas default
+- max concurrent NVTs per host = 4 (default)
+- max concurrent scanned host = 20 (default)
+- 18 minutes 38 seconds
+
+
+------------------------------------------------
+
+linux no-cred scan (full):
+
+- via GUI
+- port list =  All TCP (65535 ports)
+- alive test = consider alive
+- full and very deep ultimate
+	- Alle NVTs
+	- word NIET geoptimalizeerd door vorige results
+	- gebruikt TCP connect() nmap scan --> SYN is sneller, maar meer unreliable --> er moet zelf een scanner voor aangemaakt worden
+	- Inclusief NVTs dat services/hosts kunnen laten crashen
+- scanner: openvas default
+- max concurrent NVTs per host = 4 (default)
+- max concurrent scanned host = 20 (default)
+- 37 minutes 43 seconds
+
+
+------------------------------------------------
+
+linux cred scan (fast):
+
+- via GUI
+- port list = 'All IANA assigned TCP 2012-02-10' --> 5625 ports (enkel TCP) uitleggen wat IANA is --> is ook het eertse item in de checkbocks (standaardwaarde?)
+- alive test = consider alive
+- full and fast
+	- bijna alle NVTs die openavs heeft
+	- word geoptimalizeerd op basis van vorige scans van dezelfde target
+	- geen NVTs die services of host kunnen laten crash
+	- gebruikt TCP connect() nmap scan --> SYN is sneller, maar meer unreliable --> er moet zelf een scanner voor aangemaakt worden
+- scanner: openvas default
+- max concurrent NVTs per host = 4 (default)
+- max concurrent scanned host = 20 (default)
+- ssh credentials; msfadmin,msfadmin (sudo access)
+- 19 minutes 22 seconds
+
+
+------------------------------------------------
+
+linux cred scan (full):
+
+- via GUI
+- port list =  All TCP (65535 ports)
+- alive test = consider alive
+- full and very deep ultimate
+	- Alle NVTs
+	- word NIET geoptimalizeerd door vorige results
+	- gebruikt TCP connect() nmap scan --> SYN is sneller, maar meer unreliable --> er moet zelf een scanner voor aangemaakt worden
+	- Inclusief NVTs dat services/hosts kunnen laten crashen
+- scanner: openvas default
+- max concurrent NVTs per host = 4 (default)
+- max concurrent scanned host = 20 (default)
+- ssh credentials; msfadmin,msfadmin (sudo access)
+- 39 minutes 31 seconds
+
+
+------------------------------------------------------------------------------------------------------------------------
+OPENVAS vs WINDOWS XP
+
+windows no-cred scan (fast):
+
+- via GUI
+- port list = 'All IANA assigned TCP 2012-02-10' --> 5625 ports (enkel TCP) uitleggen wat IANA is --> is ook het eertse item in de checkbocks (standaardwaarde?)
+- alive test = consider alive
+- full and fast
+	- bijna alle NVTs die openavs heeft
+	- word geoptimalizeerd op basis van vorige scans van dezelfde target
+	- geen NVTs die services of host kunnen laten crash
+	- gebruikt TCP connect() nmap scan --> SYN is sneller, maar meer unreliable --> er moet zelf een scanner voor aangemaakt worden
+- scanner: openvas default
+- max concurrent NVTs per host = 4 (default)
+- max concurrent scanned host = 20 (default)
+-  11 minutes 12 seconds
+
+
+------------------------------------------------
+
+windows no-cred scan (full):
+
+- via GUI
+- port list =  All TCP (65535 ports)
+- alive test = consider alive
+- full and very deep ultimate
+	- Alle NVTs
+	- word NIET geoptimalizeerd door vorige results
+	- gebruikt TCP connect() nmap scan --> SYN is sneller, maar meer unreliable --> er moet zelf een scanner voor aangemaakt worden
+	- Inclusief NVTs dat services/hosts kunnen laten crashen
+- scanner: openvas default
+- max concurrent NVTs per host = 4 (default)
+- max concurrent scanned host = 20 (default)
+
+- !!!windows xp machine is gecrashed door slechte RPC call (check foto desktop) --> forced reboot
+- !!! na de scan is windows xp machine compleet gefreezed, geen ctrl alt delete, geen muis interacties 
+
+- 21 minutes 2 seconds
+------------------------------------------------
+
+% TODO: cred scan windows goedzetten
+
+windows cred scan (fast):
+
+- via GUI
+- port list = 'All IANA assigned TCP 2012-02-10' --> 5625 ports (enkel TCP) uitleggen wat IANA is --> is ook het eertse item in de checkbocks (standaardwaarde?)
+- alive test = consider alive
+- full and fast
+	- bijna alle NVTs die openavs heeft
+	- word geoptimalizeerd op basis van vorige scans van dezelfde target
+	- geen NVTs die services of host kunnen laten crash
+	- gebruikt TCP connect() nmap scan --> SYN is sneller, maar meer unreliable --> er moet zelf een scanner voor aangemaakt worden
+- scanner: openvas default
+- max concurrent NVTs per host = 4 (default)
+- max concurrent scanned host = 20 (default)
+
+
+------------------------------------------------
+
+windows cred scan (full):
+
+- via GUI
+- port list =  All TCP (65535 ports)
+- alive test = consider alive
+- full and very deep ultimate
+	- Alle NVTs
+	- word NIET geoptimalizeerd door vorige results
+	- gebruikt TCP connect() nmap scan --> SYN is sneller, maar meer unreliable --> er moet zelf een scanner voor aangemaakt worden
+	- Inclusief NVTs dat services/hosts kunnen laten crashen
+- scanner: openvas default
+- max concurrent NVTs per host = 4 (default)
+- max concurrent scanned host = 20 (default)
+
+---------------------------------------------------------------------------------------------------------------------------
+
+Nessus vs metasploitable
+
+metasploitable fast scan
+
+- via GUI
+- ping remote host (methods -> ICMP)
+- network type = private lan
+- port list = default (TODO: opzoeken)
+- local port enumerators (SSH,WMI,SNMP,only network port scan when local failed)
+- SYN scan
+- scan web applications -> ja!
+	- Enable genereic web application test -->ja!
+- scan for malware --> ja!
+- 17 minutes
+
+------------------------------------------------
+TODO: kijken of network type op LAN stond
+metasploitable fast cred scan
+- via GUI
+- ping remote host (methods -> ICMP)
+- network type = private lan
+- port list = default (TODO: opzoeken --> support portal)
+- local port enumerators (SSH,WMI,SNMP,only network port scan when local failed)
+- SYN scan
+- scan web applications -> ja!
+	- Enable genereic web application test -->ja!
+- scan for malware --> ja!
+- 11 minutes
+- !!voert geen port scan meer uit, maar een netstat command op de host!
+
+------------------------------------------------
+
+metasploitable full scan
+
+- via GUI
+- ping remote host (methods -> ICMP, TCP, ARP)
+- network type = private lan
+- port 0-65535
+- local port enumerators (SSH,WMI,SNMP,only network port scan when local failed)
+- SYN
+- Search for SSL --> all ports
+- perform thotough tests --> yes!
+- test default accounts --> yes! (slow)
+- scan web applications -> ja!
+	- Enable genereic web application test -->ja!
+	- try all http methods, attampt http paramater pollution, test embedded web servers
+- scan for malware --> ja!
+- enable safe checks --> no!
+- 42 minutes
+
+------------------------------------------------
+
+metasploitable CRED full scan
+
+- via GUI
+- ping remote host (methods -> ICMP, TCP, ARP)
+- network type = private lan
+- port 0-65535
+- local port enumerators (SSH,WMI,SNMP,only network port scan when local failed)
+- SYN
+- Search for SSL --> all ports
+- perform thotough tests --> yes!
+- test default accounts --> yes! (slow)
+- scan web applications -> ja!
+	- Enable genereic web application test -->ja!
+	- try all http methods, attampt http paramater pollution, test embedded web servers
+- scan for malware --> ja!
+- enable safe checks --> no!
+- 44 minutes
+
+------------------------------------------------
+
+windows fast no cred scan
+
+- via GUI
+- ping remote host (methods -> ICMP)
+- network type = private lan
+- port list = default (TODO: opzoeken)
+- local port enumerators (SSH,WMI,SNMP,only network port scan when local failed)
+- SYN scan
+- scan web applications -> ja!
+	- Enable genereic web application test -->ja!
+- scan for malware --> ja!
+- 3 minutes
+
+------------------------------------------------
+
+windows full no cred
+
+- via GUI
+- ping remote host (methods -> ICMP, TCP, ARP)
+- network type = private lan
+- port 0-65535
+- local port enumerators (SSH,WMI,SNMP,only network port scan when local failed)
+- SYN
+- Search for SSL --> all ports
+- perform thotough tests --> yes!
+- test default accounts --> yes! (slow)
+- scan web applications -> ja!
+	- Enable genereic web application test -->ja!
+	- try all http methods, attampt http paramater pollution, test embedded web servers
+- scan for malware --> ja!
+- enable safe checks --> no!
+- 10 minutes
+
+------------------------------------------------
+
+windows fast cred scan
+
+- via GUI
+- ping remote host (methods -> ICMP)
+- network type = private lan
+- port list = default (TODO: opzoeken)
+- local port enumerators (SSH,WMI,SNMP,only network port scan when local failed)
+- SYN scan
+- scan web applications -> ja!
+	- Enable genereic web application test -->ja!
+- scan for malware --> ja!
+- 2 minutes
+
+------------------------------------------------
+
+windows full cred
+
+- via GUI
+- ping remote host (methods -> ICMP, TCP, ARP)
+- network type = private lan
+- port 0-65535
+- local port enumerators (SSH,WMI,SNMP,only network port scan when local failed)
+- SYN
+- Search for SSL --> all ports
+- perform thotough tests --> yes!
+- test default accounts --> yes! (slow)
+- scan web applications -> ja!
+	- Enable genereic web application test -->ja!
+	- try all http methods, attampt http paramater pollution, test embedded web servers
+- scan for malware --> ja!
+- enable safe checks --> no!
+- 10 minutes
+
+
