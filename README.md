@@ -2,9 +2,9 @@
 
 Stand van zaken: 
 
-* Voorwoord: X
+* Voorwoord: V (draft)
 * Samenvatting: X
 * Inleiding: V (draft)
 * Methodologie: In progress
-    - Scans zijn uitgevoerd, nog in een formele tekst schrijven.
+    - Bezig met filteren & analyseren van data
 * Conclusie: X
