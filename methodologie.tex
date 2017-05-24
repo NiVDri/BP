@@ -16,6 +16,7 @@
 
 %Voor deze proeven te beginnen, zijn we begonnen met het bestuderen van openvas. De reden hiervoor is dat deze open-source is, en het dus gemakkelijker is om een beeld te krijgen achter de schermen. Nadat de literatuurstudie klaar was, moest er beslist worden hoe het verloop van dit onderzoek zou verlopen. Uitendelijk is er besloten om een gedetailleerd onderzoek te voeren op 
 
+
 \section{Testen bepalen}
 
 In dit onderzoek zal er met elke scanner 4 scans uitgevoerd worden op elk target. De reden hierachter is dat er in een professionele omgeving 2 punten zijn die belangerijk zijn.Zowel nessus als openvas hebben hiervoor aparte profielen die focussen op een ander deel. Naast deze 2 scans is een credential scan ook een noodzaak om een inzicht te krijgen hoe goed een systeem lokaal beveiligd is (indien men toegang en permissie heeft om deze te scannen met bv. ssh). Voor elke scanner zal er dus een snelle credential, accurate credential, snelle uncredential en een accurate uncredential scan uitgevoerd worden. Dit zal gebeuren in een paar omgevingen die we hieronder bespreken.
@@ -74,8 +75,11 @@ Als we de CLI bekijken, blijkt dat deze niet werkt omdate we niet werken met soc
 \subsection{Honeypots}
 
 Voor de linux honeypot hebben we 'metasploitable' genomen. Dit is een linux machine die gebaseerd is op ubuntu 8.04 en een reeks services heeft draaien. Deze services zijn opzettelijk zo zwak mogelijk geconfigureerd zodat men op deze virtuele machines vulnerability scanners kunnen testen en zo leren een penetration test uit te voeren.
+% BVV: je bent vrij consequent met het verwijzen naar bronnen (wat super is), waarom dan hier niet? Verwijs in een voetnoot naar de website van metasploitable.
+% BVV: 
 
 Voor de windows honeypot hebben we een windows xp machine zonder service packs geïnstalleerd, maar met een aantal servers (SMB,SMTP,SNMP, FTP en IIS). Vooral door deze missende service packs hebben deze veel problemen + er zijn geen opzettelijk slecht geconfigureerde machines zoals metasploitable omdat windows xp onder een licentie valt. 
+% BVV: Ik begrijp deze laatste bewering niet...
 
 \subsection{Webservers}
 
@@ -86,6 +90,8 @@ Voor de windows honeypot hebben we een windows xp machine zonder service packs g
 \section{Instellingen scans}
 
 \subsection{Nessus}
+
+% BVV: LET OP: NIET in de eerste persoon schrijven
 
 Nessus heeft in de gratis versie geen profielen voor zowel een snelle scan als een diepe scan. Voor dit onderzoek heb ik voor beide scans zelf een profiel opgesteld. Voor de snelle scan heb ik onderstaande settings gebruikt, deze zorgt dat er een snelle scan geleverd wordt, maar met nog steeds accurate resultaten.
 
@@ -131,6 +137,7 @@ Voor de diepe scan hebben we het profiel 'full and very deep ultimate' genomen. 
 
 Wat ons hier opmerkt is dat openvas standaard voor al zijn voorgemaakte scans een TCP connect scan uitvoert, in tegenstelling tot nessus die standaard SYN gebruikt. SYN is een heel stuk sneller, maar kan onbetrouwbare resultaten geven als het systeem dit als een aanval herkent.
 
+% BVV: Zijn deze profielen equivalent aan de tests in Nessus? Indien niet of indien je dit niet kan bepalen, is de vergelijking dan correct?
 
 \section{Scan resultaten}
 
@@ -143,6 +150,7 @@ Voor de credential scans zijn er een aantal opties. Voor de metasploitable crede
 \subsubsection{Metasploitable: snel zonder credentials}
 
 %todo: een ander soort formaat gebruiken dat minder plek in beslag neemt!
+% BVV: en dat het ook makkelijker maakt om te vergelijken. Eventueel begin je met een overzichtstabel en geef je daarna de gedetailleerde resultaten.
 
 \begin{itemize}
 \item 6 critical
@@ -385,3 +393,5 @@ Hiervoor zullen we vergelijken of een vulnerability van 1 scanner te vinden is i
 \section{Analyseren van de data}
 
 %alle gevonden data in een tabel gieten, voor en nadelen nog is opsommen en \textit{persoonlijke mening geven?}
+
+% BVV: Geen *persoonlijke mening* geven, enkel staalharde feiten en cijfers waar niet over gediscussieerd kan worden...
