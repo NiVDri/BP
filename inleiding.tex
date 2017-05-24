@@ -7,18 +7,23 @@
 
 Security is de laatste jaren een echte trend geworden. Elk bedrijf is hiermee bezig, en ook in het nieuws komen er steeds meer berichten over beveiliging. Maar hoe zou een bedrijf hier zich best tegen kunnen verdedigen? Is een gewone firewall en antivirus niet genoeg meer?
 
-De volgende stap is voor vele bedrijven een 'Vulnerability management' systeem. Dit is een continu proces dat bestaat uit 4 delen:  'discovery', 'reporting', 'prioritization' en 'response'. Tijdens het 'discovery' deel moet ELK systeem getest worden en in een databank geplaatst worden. Deze databank wordt gebruikt in de volgende stap 'reporting'. Hier moet er een rapport gemaakt worden zodat alle risico's in kaart gebracht kunnen worden. Eens dat de rapporten klaar zijn, moeten er 'priorities' opgesteld worden. Dit gebeurt door elk risico te bekijken en studeren wat de invloed is op het netwerk als deze misbruikt word. Uiteindelijk moeten deze risico's opgelost worden in het 'response' deel. \textcite{Tripwire}
+De volgende stap is voor vele bedrijven een 'Vulnerability management' systeem. Dit is een continu proces dat bestaat uit 4 delen:  'discovery', 'reporting', 'prioritization' en 'response'. Tijdens het 'discovery' deel moet \emph{elk} systeem getest worden en in een databank geplaatst worden. Deze databank wordt gebruikt in de volgende stap 'reporting'. Hier moet er een rapport gemaakt worden zodat alle risico's in kaart gebracht kunnen worden. Eens dat de rapporten klaar zijn, moeten er 'priorities' opgesteld worden. Dit gebeurt door elk risico te bekijken en studeren wat de invloed is op het netwerk als deze misbruikt word. Uiteindelijk moeten deze risico's opgelost worden in het 'response' deel \autocite{Tripwire}.
+% BVV: Let op voor het gebruik van \textcite vs \autocite. \textcite gebruik je ENKEL als de naam van de auteur een deel is van de zin waarin je de verwijzing doet. In alle andere gevallen gebruik je \autocite zodat de HELE referentie tussen haakjes staat. Referenties staan ook binnen de zin waar ze gebruikt worden, dus voor de punt. Ik heb het enkel hier aangepast, zorg zelf voor de nodige wijzigingen elders in de tekst.
+% BVV: Je bibliografische databank is ONVOLLEDIG. Ook als je verwijst naar een online bron is het belangrijk dat je de auteursnaam en jaar van publicatie opgeeft. Als je dit niet kan achterhalen, is de bron ook niet bruikbaar. Ook moet je het veld urldate invullen. Lees mijn gids voor de bachelorproef voor meer info hierover, dat zou ik toch al eens moeten vernoemd hebben...
 
-Voor we beginnen uitleggen wat men hiervoor kan doen als verdediging, zuller er een paar termen uitgelegd worden dat essentieel zijn voor het verdere verloop van dit onderzoek. Een vulnerability is een zwakheid in een stuk code of een design fout (de meeste vulnerabilities komen van verouderde software en verkeerd geconfigureerde software) waardoor het mogelijk is om een actie uit te voeren wat niet de intentie van de software en/of het design was \textcite{Techtarget-vuln}. Vulnerabilities die het mogelijk maken om informatie te krijgen van het systeem krijgen een CVE nummer. Dit is een uniek nummer voor een publieke vulnerability dat begint met het jaar waarin deze ontdekt werd. Deze nummers en namen zijn nodig omdat voor dit systeem bestond, elk bedrijf een andere naam had voor een vulnerability. Dit was onduidelijk en zorgde voor veel verwarring \textcite{cve-mitre}. De acties dat gebruik maken van een vulnerability om bepaalde commandos uit te voeren op een machine (Arbitrary code execution) of een server niet meer toegankelijk maken voor legitieme gebruikers (Denial of Service), noemen we exploits \textcite{Techtarget-exploit}.
+Voor we beginnen uitleggen wat men hiervoor kan doen als verdediging, zuller er een paar termen uitgelegd worden dat essentieel zijn voor het verdere verloop van dit onderzoek. Een vulnerability is een zwakheid in een stuk code of een design fout (de meeste vulnerabilities komen van verouderde software en verkeerd geconfigureerde software) waardoor het mogelijk is om een actie uit te voeren wat niet de intentie van de software en/of het design was \textcite{Techtarget-vuln}. Vulnerabilities die het mogelijk maken om informatie te krijgen van het systeem krijgen een CVE nummer. Dit is een uniek nummer voor een publieke vulnerability dat begint met het jaar waarin deze ontdekt werd. Deze nummers en namen zijn nodig omdat voor dit systeem bestond, elk bedrijf een andere naam had voor een vulnerability. Dit was onduidelijk en zorgde voor veel verwarring \textcite{cve-mitre}. De acties die gebruik maken van een vulnerability om bepaalde commandos uit te voeren op een machine (Arbitrary code execution) of een server niet meer toegankelijk maken voor legitieme gebruikers (Denial of Service), noemen we exploits \textcite{Techtarget-exploit}.
 
-Tools dat voor vulnerability management gebruikt kunnen worden noemen we scanners. In dit onderzoek zal ik alleen de 'Vulnerability scanners' bespreken. Dit is een beveiligingstechniek  dat fouten in een systeem kan opsporen \textcite{Techopedia} over een netwerk. Deze tools worden zowel gebruikt door 'black hats' als 'white hats'. Het verschil tussen deze 2 is dat de 'white hat' ethisch correct is. Deze zal op voorhand toegang vragen om een systeem te mogen testen, en als deze test lukt het bedrijf melden wat er mis is. De 'black hat' vraagt geen toestemming en gebruikt de testen om binnen te dringen op een systeem en de data hiervan te verkopen, of het systeem te laten crashen \textcite{Howtogeek}. Voor een volledig vulnerabiliy management bij te houden, moet men ook nog andere scanners implementeren zoals een 'web application scanner' (bv. Arachni). Deze scant een website op mogelijke problemen als SQL injecties en cross-site scripting. 
+Tools die voor vulnerability management gebruikt kunnen worden noemen we scanners. In dit onderzoek zal ik alleen de 'Vulnerability scanners' bespreken. Dit is een beveiligingstechniek die fouten in een systeem kan opsporen \textcite{Techopedia} over een netwerk. Deze tools worden zowel gebruikt door 'black hats' als 'white hats'. Het verschil tussen deze 2 is dat de 'white hat' ethisch correct is. Deze zal op voorhand toegang vragen om een systeem te mogen testen, en als deze test lukt het bedrijf melden wat er mis is. De 'black hat' vraagt geen toestemming en gebruikt de testen om binnen te dringen op een systeem en de data hiervan te verkopen, of het systeem te laten crashen \textcite{Howtogeek}. Voor een volledig vulnerabiliy management bij te houden, moet men ook nog andere scanners implementeren zoals een 'web application scanner' (bv. Arachni). Deze scant een website op mogelijke problemen als SQL injecties en cross-site scripting. 
+% BVV: Let op je taal. je gebruikt vaak 'dat' ipv 'die'. Ik heb er een paar aangepast, de rest is voor jou. Laat desnoods nalezen.
 
+% BVV: Je bespreekt hieronder twee vulnerabilities, maar waarom 2 en waarom net deze? Er zijn nog tientallen, zoniet honderden andere, soorten. Als dit enkel een voorbeeld is, schrijf dat dan ook expliciet.
 Een SQL injectie, is een vulnerability dat voorkomt als men data moet invullen op een website dat een actie uitvoert op de databank. Deze kunnen gaan van een wachtwoord van een gebruiker omzeilen, tot toevoegen of verwijderen van data \textcite{acunetix}.
 
 Cross-site scripting (vaak afgekort als XSS), is een techniek waarbij een hacker legitieme gebruikers kan aanvallen via een legitieme website. Deze techniek wordt vooral misbruikt bij javascript, omdat deze op bijna elke site aanwezig is. Dit gebeurt als er input van een gebruiker gebruikt wordt door bijvoorbeeld HTML of JS. Hier kan de aanvaller de gebruiker bijvoorbeeld doorverwijzen naar een valse website, en daar persoonlijke data van de gebruiker proberen te krijgen \textcite{acunetix-xss}.
 
 Het resultaat van een vulnerability scan is meestal een lijst met 'cvss' scores van de gescande targets. Een cvss score is een framework om te bepalen hoe erg een bepaalde vulnerability is. Dit word bepaald door een complexe formule waarbij er rekening gehouden wordt met de impact op de target server, welke privileges je op de server reeds moet hebben, hoe complex de vulnerability is en van waar deze vulnerability misbruikt kan worden (lokaal netwerk, internet, fysische toegang, ...). Deze scores liggen tussen 0 en 10 en hebben aan de hand hiervan een bepaald label. Volgens versie 3 van cvss zijn de labels: low (0-3.9), medium (4-6.9), high (7-8.9) en critical (9-10) \textcite{Nist}. Naast een cvss score, heeft het rapport ook een oplossing voor de vulnerability (indien deze bestaat). Deze kan bestaan uit het updaten van een bepaalde service, tot een configuratie file aanpassen.
 
+% BVV: "een van de populairste/bekendste" is niet voldoende als motivatie om enkel nessus te bespreken. Wat wel te motiveren is, is dat de hele insteek van je bachelorproef precies is om een oplossing te zoeken voor het feit dat nessus niet meer open source is en dat je een alternatief wil zoeken.
 Momenteel zijn er een aantal vulnerability scanners, maar voor dit onderzoek zal er alleen rekening gehouden worden met 'openvas' en 'nessus'. De reden hiervoor is dat nessus momenteel 1 van de populairste en bekendste tools hiervoor is dankzij zijn kwaliteit/kost verhouding \textcite{Sectools}, maar deze heeft voor bedrijven wel een betalende licentie nodig \textcite{Tenable}. Openvas daarintegen is open-source en is gebaseerd op de laatste code die van nessus is vrijgegeven. Hierdoor kunnen we ook vergelijken of het mogelijk is om een open-source security producten te gebruiken in plaats van betalende software, en of deze dezelfde kwaliteit kan leveren. 
 
 Hoewel dit niet de primaire bedoeling is van dit onderzoek, is dit wel een mooie toevoeging. Een andere scanner die in aanmerking kwam voor dit onderzoek was CORE impact, deze wordt gezien als een van de beste en meest volledige scanners. De reden waarom deze niet onderzocht geweest is, is omdat deze een zeer hoge licentiekost heeft, en geen gratis versie heeft dat we konden gebruiken voor dit onderzoek.
@@ -32,29 +37,34 @@ Elk onderzoek dat verband heeft met security is nooit lang up-to-date. Dit komt 
 
 Dit onderzoek is hier dus geen uitzondering. Na een paar maanden zal sommige informatie irrelevant zijn. Dit wil zeggen dat ook vorige onderzoeken al oude informatie kunnen gebruiken, waardoor men zich hierop niet kan baseren.
 
-\subsection{Gelijkaardige onderzoeken}
+\subsection{Gelijkaardige studies}
 %todo: dit stuk mss wat herschrijven? + verklaren van woorden
 
-Volgens de meeste onderzoeken die gevoerd zijn, is core impact de 'beste' scanner. Hiermee wordt bedoeld dat deze zeer snelle updates heeft met NVTs en een aantal tools ingebouwd heeft voor 'false positives' te testen, maar de licentiekosten bedragen rond de 30.000\$ / jaar. De meest populaire is zoals eerder vermeld nessus. \textcite{Concise} \&\& \textcite{Sectools} 
+Volgens de meeste onderzoeken die gevoerd zijn, is core impact de 'beste' scanner. Hiermee wordt bedoeld dat deze zeer snelle updates heeft met NVTs en een aantal tools ingebouwd heeft voor 'false positives' te testen, maar de licentiekosten bedragen rond de 30.000\$ / jaar. De meest populaire is zoals eerder vermeld nessus \autocite{Concise,Sectools}.
+% BVV: tip om naar verschillende werken tegelijk te refereren kan je alle keys binnen de accolade vermelden, gescheiden door komma's
 
 Voor een vergelijking tussen openvas en nessus, is het aantal papers beperkt. Men geeft steeds dezelfde links naar het onderzoek \textcite{Hackertarget}. Dit onderzoek is gebeurt rond Juni 2012, voor security standards is dit dus heel outdated. Hoewel de vergelijking goed beschrijft hoe de scans gebeurt zijn en in welke environment dit gebeurt is, zijn er een aantal zaken die ontbreken. Zoals bijvoorbeeld een windows target. In het onderzoek heeft men alleen metasploitable gebruikt. Ook waren de 'extra' tools voor openvas niet geinstalleerd en werd voor de nessus scan niet een volledige diepe scan uitgevoerd. In de comments werd het nessus probleem aangesproken door Paul Asadoorian. Deze werkt voor tenable en heeft een uitleg gegeven hoe je een volledige scan doet met nessus \textcite{Securityweekly}. Merk op dat deze referentie partijdig is, sinds deze gegeven werd door een medewerker van nessus.
 
 Een ander onderzoek \textcite{Rageweb} gebruikt wel windows en linux targets, maar geeft geen informatie over hoe alle scans uitgevoerd zijn. Dit is een groot probleem als men niet voor elke scanner een gelijkaardig profiel gekozen heeft. Wel is dit onderozek interessant omdat er een methode gebruikt werd om 'false positives' eruit te filteren. Deze is helaas niet meer beschikbaar in de huidige versie van metasploitable, en is dus ook niet meer toepasbaar op dit onderzoek.
 
 Andere gevoerde onderzoeken werden uitgevoerd als nessus nog open source was en zijn dus ook niet toepasbaar op dit onderzoek, of waren van een te lage kwaliteit om deze te analyseren. 
+% BVV: Kan je wat beter duiden wat je bedoelt met een "te lage kwaliteit"? Dit klinkt alsof je je er snel vanaf wil maken. Beter ze toch ook te vermelden, zodat de lezer zelf een oordeel kan vellen.
 
 \subsection{Hoe werkt een vulnerability scanner}
 
 %TODO: verwijzen naar bijlage voor een stuk code van een NVT (openvas source code)
+% BVV: waarom zou je broncode van OpenVAS in bijlage toevoegen? Als het open source is, verwijs dan desnoods in een voetnoot naar Github.
 
 Een vulnerability scanner bestaat traditioneel uit 3 delen. Een user interface, een manager en een scanner. Eerst zal er een kleine uitleg gegeven worden over hoe alle delen met elkaar werken, en daarna een gedetailleerde beschrijving hoe een target gescanned word.
 
 %todo bronvermelding!
 \begin{figure}[h]
-\caption{Vulnerability scanner structuur}
-\includegraphics[width=10.0cm]{img/Openvas-structuur.png} \textcite{Openvas-about}
+\includegraphics[width=10.0cm]{img/Openvas-structuur.png}
+\caption{Vulnerability scanner structuur \autocite{Openvas-about}}
+\label{img:openvas-structuur}
 \end{figure}
- 
+% BVV: Tip voor figuren: hou deze structuur aan: caption onder de tekening, ook label toevoegen zodat je er vanuit de tekst kan naar verwijzen.
+
 De user interface (hierboven vermeld als 'Greenbone Security Assistant') is in veel gevallen een webinterface dat acties doorstuurt naar de manager, zoals een scan starten, of rapporten maken. Het is ook mogelijk om acties door te sturen naar de manager via een command line interface (hierboven vermeld als 'OpenVAS CLI'), dit is handig voor als men scans wil automatiseren.
 
 De manager (hierboven vermeld als 'OpenVAS Manager') staat in voor de communicatie tussen de user interface en de scanner engine. Deze onderhoud ook een aantal databanken waarin alle configuraties, resultaten, SCAP data, CERT data en NVT's zitten. SCAP, CERT en NVTs zijn hierbij de belangerijkste, deze staan in voor het testen van een target of deze vulnerable is. SCAP data is een feed waarbij de community helpt deze te ontwikkelen \textcite{whatis-scap}. Het verschil met CERT data is dat deze eerder voor interne scans bedoeld is, door een serie van testen uit te voeren met een aangemelde gebruiker \textcite{whatis-cert}.Uiteindelijk zijn er nog NVTs, deze zijn geen vaste feeds waar iedereen dezelfde data krijgt. Deze hangt af per vulnerability scanner. Later in dit onderzoek zullen we deze verschillen duidelijk zien met openvas en nessus. Het is de job van de manager om deze databanken up-to-date te houden zodat deze steeds een volledige vulnerability management oplossing kan bieden.
@@ -74,6 +84,7 @@ Uiteindelijk zal de scanner alle gevonden informatie doorsturen naar de manager,
 %TODO: wat beter herschrijven
 %TODO: functionaliteiten opsommen!
 
+% BVV: Schrijf merknamen altijd zoals de fabrikant het doet: Nessus, OpenVAS -> hoofdletters
 In de volgende delen, zullen we nessus en openvas vergelijken op een aantal vlakken dat belangerijk zijn in een scanner. Een aantal belangerijke zaken (snelheid van de scanner, accuraatheid, etc...) zullen pas besproken worden in hoofdstuk~\ref{ch:methodologie}, omdat deze tot het onderzoek behoren. Eerst zal er kort een aantal zaken besproken worden zoals de geschiedenis van de scanner, de licenties, de support dat de scanner krijgt en de hardware vereisten. Hierna bespreken we de belangerijkste zaken.
 
 Een volwaardige vulnerabiltiy scanner moet aan een paar voorwarden voldoen, het belangerijkste onderdeel zijn de NVTs. Als deze niet tijdig worden geüpdate, is de scanner niet meer betrouwbaar voor de nieuwste vulnerabilities, en geeft dit een vals veilig gevoel. Hiervoor zullen we 2 grote vulnerabilities (1 voor linux, en 1 voor windows) opzoeken en kijken wanneer beide scanners deze NVT toegevoegd hebben. Voor linux heb ik gekozen voor de 'shellshock' vulnerability (CVE-2014-6271), voor windows is dit 'Server Service Vulnerability' (CVE-2008-4250)
@@ -125,7 +136,7 @@ Voor de shellshock vulnerability is er een NVT verschenen op 24-09-2014 \textcit
 
 \subsubsection{Hardware}
 De minimum systeemvereisten voor een scanner zijn:
-
+% "een scanner" == gelijk welke scanner? Als het enkel geldt voor Nessus/OpenVAS, schrijf dat dan ook expliciet.
 \begin{itemize}
 \item Dual core 2GHz CPU
 \item 2-4 GB RAM
@@ -140,6 +151,7 @@ De minimum systeemvereisten voor een scanner zijn:
 
 \subsubsection{Geschiedenis}
 Openvas is een fork van de laatste source code die nessus publiek heeft gemaakt in 2005, en begon onder de naam \textcite{Securiteam} en werd opgestart door Tim Brown. Dit project is nog steeds volledig opensource \textcite{Openvas-source} en gratis voor zowel personen, als bedrijven met uitzondering op een (niet verplichte) betalende licentie van greenbone voor NVT's \textcite{Openvas-nvt}. De grootste bijdrager voor openvas is greenbone, deze zorgt voor een groot deel van de NVTs, de webinterface en bugfixes \textcite{Openvas-contributors}.
+% BVV: NVT == ???
 
 \subsubsection{Licenties}
 
@@ -147,9 +159,12 @@ Openvas valt onder de GPL license, is open-source en is gratis te gebruiken voor
 
 \subsubsection{Support}
 
-Een nadeel van open-source projecten is vaak dat je afhankelijk bent van de community voor support. Dit is bij openvas niet anders, buiten een mailing list en een IRC is de support zo goed als niet bestaande. Een 'Internet relay chat (IRC)' is een online chatroom waar een reeks gebruikers zich aanmelden om over een bepaald onderwerp te Discussiëren \textcite{IRC}. In dit geval is het onderwerp openvas, en heeft de IRC gemiddeld 2000-3000 lijnen per uur \textcite{Openvas-IRC}. Een mailing list is een lijst van mensen die zich met een email geabonneerd heeft. Hier verstuurt een andere gebruiker of bedrijf een email naar over een bepaald onderwerp zodat deze mensen up-to-date blijven met alle nieuwigheden. Een voorbeeld hiervan is de openvas mailing list, deze verstuurt een mail telkens dat er een nieuwe versie beschikbaar is. Deze mail bevat alle informatie met wat er veranderd is ten opzichte van de vorige versie \textcite{techtarget-mailinglist}.
+Een nadeel van open-source projecten is vaak dat je afhankelijk bent van de community voor support. Dit is bij openvas niet anders, buiten een mailing list en een IRC is de support zo goed als niet bestaande. 
+% Ik vind dit een totaal onterechte uitspraak. Je bent helemaal niet van de community afhankelijk. Je kan ook een specialist betalen om je ondersteuning te geven, wat je bij een commercieel product ook zou doen. Bv. http://quintetsolutions.com/services/openvas-configuration-consultation/. Er is dus helemaal geen nadeel tov commerciële producten. Als je *gratis* support wil, is dit een andere zaak, maar wat kan je redelijkerwijs verwachten als je er niet voor wil betalen? Bij commerciële producten heb je meestal zelfs nog geen mailing list of irc-kanaal (toch geen die door de vendor beheerd wordt), dus ben je nog meer aan je lot overgelaten.
+Een 'Internet relay chat (IRC)' is een online chatroom waar een reeks gebruikers zich aanmelden om over een bepaald onderwerp te Discussiëren \textcite{IRC}. In dit geval is het onderwerp openvas, en heeft de IRC gemiddeld 2000-3000 lijnen per uur \textcite{Openvas-IRC}. Een mailing list is een lijst van mensen die zich met een email geabonneerd heeft. Hier verstuurt een andere gebruiker of bedrijf een email naar over een bepaald onderwerp zodat deze mensen up-to-date blijven met alle nieuwigheden. Een voorbeeld hiervan is de openvas mailing list, deze verstuurt een mail telkens dat er een nieuwe versie beschikbaar is. Deze mail bevat alle informatie met wat er veranderd is ten opzichte van de vorige versie \textcite{techtarget-mailinglist}.
 
 De openvas website bevat veel verouderde links zoals een wiki en een aantal screenshots. Op het moment van schrijven is de laatste entry in de wiki voor openvas 7 \textcite{Openvas-wiki}, ook op de screenshots pagina is de laatste entry voor openvas 7 \textcite{Openvas-screenshots}.
+% BVV: Dit is *wel* een terechte opmerking...
 
 \subsubsection{Nvt development}
 
@@ -185,6 +200,8 @@ De minimum systeemvereisten voor openvas staan niet op de site, er is wel een vi
 \section{Probleemstelling en Onderzoeksvragen}
 \label{sec:onderzoeksvragen}
 
+% BVV: Ik zou eventueel opteren om je probleemstelling en onderzoeksvragen naar voor in dit hoofdstuk te plaatsen. Ik weet dat ik de volgorde zo in de template heb gestoken, maar meestal is er teveel inleiding voordat de onderzoeksvragen behandeld worden, en dan begint de lezer zich vragen te stellen wat precies het doel is van de tekst.
+
 %% TODO:
 %% Uit je probleemstelling moet duidelijk zijn dat je onderzoek een meerwaarde
 %% heeft voor een concrete doelgroep (bv. een bedrijf).
@@ -197,12 +214,14 @@ De minimum systeemvereisten voor openvas staan niet op de site, er is wel een vi
 %todo: hash, salt
 %ander woord voro misnoegd i guess
 
-Idealistisch zou elk bedrijf hoe groot en klein dan ook, beveiliging als een prioriteit moeten beschouwen. In de realiteit is dit helaas niet zo, veel (vooral kleine) bedrijven bezien dit als een bonus (of erger: een extra kost) hoewel dit een grote impact kan hebben op de verdere toekomst van het bedrijf. Stel bedrijf X, een IT bedrijf dat klantegegevens bijhoud en een kleine database heeft voor een website. Bedrijf x heeft een oude versie van de apache webserver, en deze wordt niet geüpdate omdat de server blijft werken. Op een dag is de server gecrashed en in de log files ziet men dat een anvaller toegang gekregen heeft tot het systeem (door een vulnerability in apache). Hierdoor stuurt bedrijf x naar alle klanten een bericht dat men hun wachtwoord moet veranderen omdat de wachtwoorden niet gesalt waren, en dus mogelijk achterhaald kunnen worden. Veel mensen zullen misnoegd zijn en bedrijf X niet meer vertrouwen, hierdoor zullen hun inkomsten dalen.
+Idealiter zou elk bedrijf, hoe groot en klein ook, beveiliging als een prioriteit moeten beschouwen. In de realiteit is dit helaas niet zo, veel (vooral kleine) bedrijven bezien dit als een bonus (of erger: een extra kost) hoewel dit een grote impact kan hebben op de verdere toekomst van het bedrijf. Stel bedrijf X, een IT bedrijf dat klantegegevens bijhoud en een kleine database heeft voor een website. Bedrijf x heeft een oude versie van de apache webserver, en deze wordt niet geüpdate omdat de server blijft werken. Op een dag is de server gecrashed en in de log files ziet men dat een anvaller toegang gekregen heeft tot het systeem (door een vulnerability in apache). Hierdoor stuurt bedrijf x naar alle klanten een bericht dat men hun wachtwoord moet veranderen omdat de wachtwoorden niet gesalt waren, en dus mogelijk achterhaald kunnen worden. Veel mensen zullen misnoegd zijn en bedrijf X niet meer vertrouwen, hierdoor zullen hun inkomsten dalen.
 
 %todo aanvullen?
 
 Dit is natuurijk een overdreven voorbeeld, maar het laat zien waarom beveiliging zo belangerijk is. Dit onderzoek zal aantonen dat er gratis oplossingen zijn voor bedrijven om te beginnen met vulnerability management, en of deze vergelijkbaar zijn met een 'professionele' en betaalbare software. Concreet betekent dit dat mijn onderzoeksvragen als volgt zijn:
+% BVV: Niet spreken vanuit de eerste persoon!
 
+% BVV: hoe kan dit nu nog niet ingevuld zijn? Dit vormt de kern van je onderzoek!
 %todo: onderzoeksvragen!
 \begin{itemize}
 \item 
@@ -214,7 +233,7 @@ Dit is natuurijk een overdreven voorbeeld, maar het laat zien waarom beveiliging
 
 De rest van dit onderzoek is als volgt opgebouwd:
 
-In hoofdstuk~\ref{ch:methodologie} wordt het effectieve onderzoek gevoerd. Deze is opgebouwt in een aantal grote stukken. Het eerste stuk is bepalen hoe we deze scanners zullen vergelijken. Daarnaast zetten we ook een testomgeving op die de scans op een veilige manier laten gebeuren. 
+In hoofdstuk~\ref{ch:methodologie} wordt het effectieve onderzoek gevoerd. Deze is opgebouwd in een aantal grote stukken. Het eerste stuk is bepalen hoe we deze scanners zullen vergelijken. Daarnaast zetten we ook een testomgeving op die de scans op een veilige manier laten gebeuren. 
 
 Hierna volgt de installatie van beide scanners, waar we vergelijken hoeveel manuele stappen elke scanner nodig heeft. Als we eenmaal een volledige omgeving hebben, bespreken we het belang van de verschillende soorten scans. Uiteindelijk voeren we de testen uit en valideren / analyseren we de gevonden data.
 
